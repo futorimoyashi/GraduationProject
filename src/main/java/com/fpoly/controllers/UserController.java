@@ -26,7 +26,7 @@ public class UserController {
 		return (List<UserApplication>) userService.findAll();
 	}
 
-	@PostMapping("sign-up")
+	@PostMapping("signup")
 	public void signUp(@RequestBody UserApplication userApplication){
 		userApplication.setPassword(bCryptPasswordEncoder.encode(userApplication.getPassword()));
 		userService.save(userApplication);
