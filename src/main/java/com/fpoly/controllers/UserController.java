@@ -1,5 +1,7 @@
 package com.fpoly.controllers;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.*;
 
 import com.fpoly.models.UserApplication;
@@ -18,5 +20,11 @@ public class UserController {
 	@PostMapping("/add")
 	public void add(@RequestBody UserApplication user) {
 		userService.save(user);
+	}
+	
+	@GetMapping("/")
+	public List<UserApplication> selectAll() {
+		List<UserApplication> users = (List<UserApplication>) userService.findAll();
+		return users;
 	}
 }
