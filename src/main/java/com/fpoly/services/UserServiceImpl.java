@@ -1,18 +1,34 @@
 package com.fpoly.services;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.fpoly.models.UserApplication;
 import com.fpoly.repositories.UserRepository;
 
 @Service
-public class UserServiceImpl implements UserService{
-	@Autowired
+public class UserServiceImpl implements UserService, UserDetailsService {
+
 	private UserRepository userRepository;
+
+	public UserServiceImpl(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		UserApplication userApplication = userRepository.findByUsername(username);
+		if(userApplication == null){
+			throw new UsernameNotFoundException(username);
+		}
+		return new org.springframework.security.core.userdetails.User(userApplication.getUsername(), userApplication.getPassword(), Collections.emptyList());
+	}
 
 	@Override
 	public UserApplication save(UserApplication entity) {
