@@ -1,25 +1,35 @@
 package com.fpoly.controllers;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.List;
-
 import org.springframework.web.bind.annotation.*;
 
 import com.fpoly.models.UserApplication;
 import com.fpoly.services.UserService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
 	private UserService userService;
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	public UserController(UserService userService) {
+	public UserController(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
 		this.userService = userService;
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 	}
 
-	@PostMapping("/add")
-	public void add(@RequestBody UserApplication user) {
-		userService.save(user);
+	@GetMapping
+	public List<UserApplication> getUsers(){
+		return (List<UserApplication>) userService.findAll();
+	}
+
+	@PostMapping("sign-up")
+	public void signUp(@RequestBody UserApplication userApplication){
+		userApplication.setPassword(bCryptPasswordEncoder.encode(userApplication.getPassword()));
+		userService.save(userApplication);
 	}
 	
 	@GetMapping("/")
