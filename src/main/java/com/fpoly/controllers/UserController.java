@@ -1,6 +1,7 @@
 package com.fpoly.controllers;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import java.util.List;
 import org.springframework.web.bind.annotation.*;
 
 import com.fpoly.models.UserApplication;
@@ -31,14 +32,9 @@ public class UserController {
 		userService.save(userApplication);
 	}
 	
-//	@GetMapping("/")
-//	public List<UserApplication> selectAll() {
-//		List<UserApplication> users = (List<UserApplication>) userService.findAll();
-//		return users;
-//	}
-
 	@GetMapping("/")
-	public String select() {
-		return "Graduation Project";
+	public List<UserApplication> selectAll() {
+		List<UserApplication> users = (List<UserApplication>) userService.findAll();
+		return users;
 	}
 }
