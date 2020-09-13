@@ -22,7 +22,7 @@ public class UserController {
 
 	@GetMapping
 	public List<UserApplication> getUsers(){
-		return (List<UserApplication>) userService.findAll();
+		return  userService.findAll();
 	}
 
 	@PostMapping("sign-up")
@@ -31,14 +31,11 @@ public class UserController {
 		userService.save(userApplication);
 	}
 	
-//	@GetMapping("/")
-//	public List<UserApplication> selectAll() {
-//		List<UserApplication> users = (List<UserApplication>) userService.findAll();
-//		return users;
-//	}
-
 	@GetMapping("/")
-	public String select() {
-		return "Graduation Project";
+	public List<UserApplication> selectAll() {
+		List<UserApplication> users = (List<UserApplication>) userService.findAll();
+		return users;
+
 	}
+
 }

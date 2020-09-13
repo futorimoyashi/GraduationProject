@@ -19,7 +19,7 @@ public interface UserService {
 
 	List<UserApplication> findAllById(List<String> ids);
 
-	Iterable<UserApplication> findAll();
+	List<UserApplication> findAll();
 
 	boolean existsById(String id);
 
